@@ -1,0 +1,24 @@
+services:
+  app:
+    build: .
+    command: fastapi dev --host 0.0.0.0
+    volumes:
+      - .:/app
+    ports:
+      - 8000:8000
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://postgres:postgres@db:5432/test
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15.3
+    ports:
+      - 5432:5432
+    expose:
+      - 5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=test
+

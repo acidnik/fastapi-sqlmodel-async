@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "fastapi-sqlmodel-boilerplate"
+version = "0.1.0"
+description = "Boilerplate for project on FastAPI and SQLModel"
+authors = ["Nikita Bilous <nikita@bilous.me>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.13"
+fastapi = {extras = ["standard"], version = "^0.115.8"}
+sqlmodel = "^0.0.22"
+alembic = "^1.14.1"
+ulid-py = "^1.1.0"
+asyncpg = "^0.30.0"
+psycopg2 = "^2.9.10"
+sqlalchemy = "^2.0.38"
+black = "^25.1.0"
+isort = "^6.0.0"
+pydantic-settings = "^2.8.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.basedpyright]
+typeCheckingMode = "off"
+reportIncompatibleMethodOverride = false
+reportUnnecessaryIsInstance = false
+

@@ -1,0 +1,14 @@
+.idea
+.vscode/
+
+__pycache__/
+*.py[cod]
+*$py.class
+
+.env
+.env.fish
+venv
+.coverage
+
+*.log
+.DS_Store

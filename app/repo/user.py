@@ -5,6 +5,7 @@ import pydantic
 from sqlalchemy import select
 
 from models.user import User
+from models.user import UserCreate
 from models.user import UserDb
 
 from .base import Repository
@@ -27,8 +28,8 @@ def pw_hash(pw: str, salt: str | None = None) -> str:
 
 
 class UserRepository(Repository):
-    async def create_user(self, user: User, password: str) -> UserDb:
-        user_db = UserDb(**user.model_dump(), password_hash=pw_hash(password))
+    async def create_user(self, user: UserCreate) -> UserDb:
+        user_db = UserDb(**user.model_dump(), password_hash=pw_hash(user.password))
         self._db.add(user_db)
         await self._db.commit()
         return user_db
@@ -50,5 +51,6 @@ class UserRepository(Repository):
 
     async def get_all(self) -> list[User]:
         rows = (await self._db.execute(select(UserDb))).scalars().all()
+        print(f'xxx {rows}')
         ta = pydantic.TypeAdapter(list[User])
         return ta.validate_python(rows)

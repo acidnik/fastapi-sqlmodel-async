@@ -13,6 +13,10 @@ class User(SQLModel):
     created_dt: datetime = Field(sa_column_kwargs={"server_default": sa.func.current_timestamp()}, default=None)
 
 
+class UserCreate(User):
+    password: str
+
+
 # fields for db only
 class UserDb(User, table=True):
     __tablename__ = 'users'

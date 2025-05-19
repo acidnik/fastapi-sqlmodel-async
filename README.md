@@ -17,9 +17,9 @@ Add your config to `app/config.py`
 docker compose up -d 
 alembic upgrade head
 # create user
-curl localhost:8000/api/v1/user -d '{"login":"test", "password_hash": "test"}' -H 'Content-Type: application/json'
+curl localhost:8000/api/v1/users -d '{"login":"test", "password": "test"}' -H 'Content-Type: application/json'
 # get all users
-curl localhost:8000/api/v1/user
+curl localhost:8000/api/v1/users
 ```
 
 # Customization

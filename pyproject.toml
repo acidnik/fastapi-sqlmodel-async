@@ -17,6 +17,8 @@ sqlalchemy = "^2.0.38"
 black = "^25.1.0"
 isort = "^6.0.0"
 pydantic-settings = "^2.8.0"
+pytest = "^8.3.5"
+pytest-asyncio = "^0.26.0"
 
 
 [build-system]
@@ -27,4 +29,8 @@ build-backend = "poetry.core.masonry.api"
 typeCheckingMode = "off"
 reportIncompatibleMethodOverride = false
 reportUnnecessaryIsInstance = false
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "session"
 

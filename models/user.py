@@ -10,7 +10,7 @@ from models.utils import ulid
 class User(SQLModel):
     id: str = Field(default_factory=ulid, primary_key=True)
     login: str = Field(unique=True)
-    created_dt: datetime = Field(sa_column_kwargs={"server_default": sa.func.current_timestamp()})
+    created_dt: datetime = Field(sa_column_kwargs={"server_default": sa.func.current_timestamp()}, default=None)
 
 
 # fields for db only

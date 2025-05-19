@@ -1,24 +1,20 @@
 from fastapi import Depends
 from fastapi import FastAPI
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlmodel import select
 
+from app.repo.user import UserRepository
 from models.user import User
 from models.user import UserDb
 
-from .db import database
 
 app = FastAPI()
 
 
 @app.get('/api/v1/users', response_model=list[User])
-async def get_users(db: AsyncSession = Depends(database)):
-    return (await db.execute(select(UserDb))).scalars().all()
+async def get_users(user_repo: UserRepository = Depends(UserRepository.depends)):
+    return user_repo.get_all()
 
 
 @app.post('/api/v1/users', response_model=User)
-async def new_user(user: UserDb, db: AsyncSession = Depends(database)):
-    db.add(user)
-    await db.commit()
-    await db.refresh(user)
-    return user
+async def new_user(user: UserDb, user_repo: UserRepository = Depends(UserRepository.depends)):
+    user_saved = await user_repo.create_user(user)
+    return User(**user_saved.model_dump())

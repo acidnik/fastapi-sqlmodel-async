@@ -7,6 +7,7 @@ from sqlalchemy.ext.asyncio import async_sessionmaker
 from sqlalchemy.ext.asyncio import create_async_engine
 
 from app.config import settings
+from app.repo.user import UserRepository
 
 
 @pytest.fixture(scope='session', autouse=True)
@@ -28,3 +29,6 @@ async def db(engine) -> AsyncGenerator[AsyncSession]:
         yield s
 
 
+@pytest.fixture()
+async def user_repo(db) -> UserRepository:
+    return UserRepository(db)

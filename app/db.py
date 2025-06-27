@@ -11,3 +11,4 @@ async def database() -> AsyncSession:
     session = async_sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
     async with session() as s:
         yield s
+        await s.commit()

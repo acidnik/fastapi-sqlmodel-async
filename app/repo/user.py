@@ -2,7 +2,7 @@ import hashlib
 import secrets
 
 import pydantic
-from sqlalchemy import select
+import sqlalchemy as sa
 
 from models.user import User
 from models.user import UserCreate
@@ -30,13 +30,10 @@ def pw_hash(pw: str, salt: str | None = None) -> str:
 class UserRepository(Repository):
     async def create_user(self, user: UserCreate) -> UserDb:
         user_db = UserDb(**user.model_dump(), password_hash=pw_hash(user.password))
-        self._db.add(user_db)
-        await self._db.commit()
-        return user_db
+        return await self.insert(user_db)
 
     async def login(self, login: str, password: str) -> User:
-        user = (await self._db.execute(select(UserDb).where(UserDb.login == login))).scalars().first()
-        await self._db.commit()
+        user = (await self._db.execute(sa.select(UserDb).where(UserDb.login == login))).scalars().first()
         if not user:
             raise UserNotFound
 
@@ -50,7 +47,6 @@ class UserRepository(Repository):
         return user
 
     async def get_all(self) -> list[User]:
-        rows = (await self._db.execute(select(UserDb))).scalars().all()
-        print(f'xxx {rows}')
+        rows = (await self._db.execute(sa.select(UserDb))).scalars().all()
         ta = pydantic.TypeAdapter(list[User])
         return ta.validate_python(rows)
